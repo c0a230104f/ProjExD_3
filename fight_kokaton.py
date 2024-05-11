@@ -161,15 +161,25 @@ def main():
             time.sleep(1)
             return
 
+        if bomb is not None:
+            if not (beam is None or bomb is None):
+                if beam.rct.colliderect(bomb.rct):  # ビームと爆弾が衝突したら
+                    beam = None
+                    bomb = None
+                    pg.display.update()
+
         if not (beam is None or bomb is None):
             if beam.rct.colliderect(bomb.rct):  # ビームと爆弾が衝突したら
                 beam = None
                 bomb = None
+                bird.change_img(6, screen)
                 pg.display.update()
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
         bomb.update(screen)
+        if bomb is not None:
+            bomb.update(screen)
         if beam is not None:
             beam.update(screen)
         pg.display.update()
